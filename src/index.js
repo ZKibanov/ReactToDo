@@ -4,9 +4,9 @@ import NewTaskForm from './components/NewTaskForm';
 import TaskList from './components/TaskList';
 import Footer from './components/Footer'
 const tasks = [
-    {description:'Completed task', status:'completed',created:'created 17 seconds ago',id:1},
-    {description:'Editing task',status:'editing',id:2},
-    {description:'Active task',created:'created 5 minutes ago',id:3}
+    {description:'Completed task', status:'completed',created:new Date(2020, 12, 24),id:1},
+    {description:'Editing task',status:'editing',created:new Date(2020, 12, 11),id:2},
+    {description:'Active task',created:new Date(2020, 10, 10),id:3}
 ]
 const count = 1;
 const App = () => {
