@@ -1,9 +1,12 @@
 import React from 'react';
 import Task from '../Task'
-const TaskList = ({tasks}) => {
+const TaskList = ({tasks,onDeleted}) => {
    const renderedTasks = tasks.map((item)=>{
 		const {id,...itemProps} = item;
-		return <Task key = {id} {...itemProps} /> 
+		return <Task key = {id} 
+		{...itemProps} 
+		onDeleted = {()=> onDeleted(id)}
+		/> 
 	})
     return  <ul className = 'todo-list'>{[renderedTasks]}</ul>
             

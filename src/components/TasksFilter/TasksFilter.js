@@ -1,6 +1,9 @@
-import React from 'react';
-const TasksFilter = () => {
-    return (
+import React,{Component} from 'react';
+
+export default class TasksFilter extends Component {
+	
+	render() {
+		 return (
         <ul className="filters">
 
             <li>
@@ -16,6 +19,5 @@ const TasksFilter = () => {
             </li>
 
         </ul>
-    )}
-
-export default TasksFilter
+    )};
+	}
