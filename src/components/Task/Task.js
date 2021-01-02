@@ -1,40 +1,47 @@
 import React,{Component} from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import PropTypes from 'prop-types';
 
 export default class Task extends Component {
 	constructor(){ //чтоб не биндить this на функцию в рендере
 		super();
 		this.state = {
-			completed:false,
 			editing:false
 			}
-		this.changeClassOnLabelClick=()=>{
-			this.setState(({completed})=>{return {completed:!completed}})
-		}
+
 		this.turnToEdit = () => {
 			this.setState({editing:true})
 		}
 		};
+		
+	onSubmit =(e)=>{
+		e.preventDefault();	
+		this.props.onRename(e.target.lastChild.value);
+		this.setState({editing:false})	
+		e.target.lastChild.value = '';
+		}
 	
-
 	render (){
-		let {status=null,description,created = null,onDeleted} = this.props;
-		const {completed} = this.state;
+		let {status,description,created,onDeleted,onDone,completed} = this.props;
 		const {editing} = this.state;
 		if (completed) {
-			status = 'completed';
-			console.log(status);
+			status += 'completed';
 			}
+			
 		if (editing) {
-		status = 'editing';
+		status += 'editing';
 		}
+		
 		return (
     <li className={status}>
         <div className = 'view'>
-         <input className = 'toggle' type="checkbox"></input>
+         <input className = 'toggle' 
+         type="checkbox" 
+         defaultChecked = {completed}
+         onClick = {onDone}></input>
          <label>
          <span className = 'description' 
-         onClick = {this.changeClassOnLabelClick}>{description}</span>
+         >{description}</span>
          <span className = 'created'>{formatDistanceToNow(
   created,
   {includeSeconds: true}
@@ -47,9 +54,22 @@ export default class Task extends Component {
          onClick = {onDeleted}
          ></button>
         </div>
-        <input className = 'edit'></input>
+         <form 
+         onSubmit = {this.onSubmit}
+         ><input type = 'text' className = 'edit'></input></form>
     </li>)
 		
 		}
+
+	static defaultProps = {
+		status: '',
+		created: Date.now()
+	}
+
+	static propTypes = {
+		description: PropTypes.string,
+		completed: PropTypes.bool,
+		created:PropTypes.instanceOf(Date)
+	}
 	}
 

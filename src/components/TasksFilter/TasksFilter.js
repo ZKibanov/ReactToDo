@@ -3,21 +3,30 @@ import React,{Component} from 'react';
 export default class TasksFilter extends Component {
 	
 	render() {
+		const {filterTasks} = this.props;
 		 return (
-        <ul className="filters">
-
+        <ul className="filters"
+        onClick = {filterTasks}
+        >
             <li>
-              <button className = 'selected'>All</button>
+              <button data-f ="all"            
+              >All</button>
             </li>
 
             <li>
-              <button>Active</button>
+              <button data-f = "active"            
+              >Active</button>
             </li>
 
             <li>
-              <button>Completed</button>
+              <button data-f = "completed"
+              >Completed</button>
             </li>
 
         </ul>
     )};
-	}
+  }
+  
+  TasksFilter.defaultProps = {
+    filterTasks: () => {console.log('We have lost function filterTasks somewhere in import')}
+  }
