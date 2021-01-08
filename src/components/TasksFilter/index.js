@@ -1,3 +1,4 @@
-import TasksFilter from './TasksFilter.js'
-import './TasksFilter.css'
+import TasksFilter from './TasksFilter';
+import './TasksFilter.css';
+
 export default TasksFilter;

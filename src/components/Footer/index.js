@@ -1,3 +1,4 @@
-import Footer from './Footer.js'
-import './Footer.css'
+import Footer from './Footer';
+import './Footer.css';
+
 export default Footer;
