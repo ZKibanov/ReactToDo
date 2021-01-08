@@ -1,32 +1,45 @@
-import React,{Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class TasksFilter extends Component {
-	
-	render() {
-		const {filterTasks} = this.props;
-		 return (
-        <ul className="filters"
-        onClick = {filterTasks}
-        >
+const TasksFilter = (props) => {
+
+  const { filterTasks, filterOption } = props;
+
+  TasksFilter.defaultProps = {
+    filterTasks: () => { console.log('We have lost function filterTasks somewhere in import'); },
+    filterOption: 'all',
+  };
+  
+  TasksFilter.propTypes = {
+    filterTasks: PropTypes.func,
+    filterOption: PropTypes.string,
+  }
+
+  return (
+        <ul className="filters">
             <li>
-              <button data-f ="all"            
+              <button type="button" 
+              className={filterOption === 'all' ? 'selected' : null}
+              onClick = {()=> filterTasks('all')}
               >All</button>
             </li>
 
             <li>
-              <button data-f = "active"            
+              <button type="button" 
+              className={filterOption === 'active' ? 'selected' : null}
+              onClick = {()=> filterTasks('active')}
               >Active</button>
             </li>
 
             <li>
-              <button data-f = "completed"
+              <button type="button" 
+              className={filterOption === 'completed' ? 'selected' : null}
+              onClick = {()=> filterTasks('completed')}
               >Completed</button>
             </li>
 
         </ul>
-    )};
-  }
-  
-  TasksFilter.defaultProps = {
-    filterTasks: () => {console.log('We have lost function filterTasks somewhere in import')}
-  }
+    );
+};
+
+export default TasksFilter
