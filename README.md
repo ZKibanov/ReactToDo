@@ -1,1 +1,1 @@
-https://vercel.com/zkibanov/todoapp/8wnfm0mtk
+https://todoapp-8wnfm0mtk.vercel.app/
