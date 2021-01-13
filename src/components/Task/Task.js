@@ -52,18 +52,19 @@ export default class Task extends Component {
     let { status } = this.props;
     const { description, created, onDeleted, onDone, completed } = this.props;
     const { editing } = this.state;
+
     if (completed) {
-      status += 'completed';
+      status = 'completed';
     }
 
     if (editing) {
-      status += 'editing';
+      status = 'editing';
     }
 
     return (
       <li className={status}>
         <div className="view">
-          <input className="toggle" type="checkbox" defaultChecked={completed} onClick={onDone} />
+          <input className="toggle" type="checkbox" checked={completed} onClick={onDone} />
           <label>
             <span className="description">{description}</span>
             <span className="created">{formatDistanceToNow(created, { includeSeconds: true })}</span>
