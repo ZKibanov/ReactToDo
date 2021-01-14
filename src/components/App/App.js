@@ -3,7 +3,7 @@ import NewTaskForm from '../NewTaskForm';
 import TaskList from '../TaskList';
 import Footer from '../Footer';
 
-let elId = 100;
+let elId = Date.now() + 1;
 
 export default class App extends Component {
   constructor() {
@@ -83,7 +83,7 @@ export default class App extends Component {
   };
 
   renameItem = (text, id) => {
-    if (!text) return;
+    if (!text || text[0] === ' ') return;
     this.setState(({ tasks }) => {
       const idx = this.findId(tasks, id);
       const before = tasks.slice(0, idx);

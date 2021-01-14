@@ -18,7 +18,7 @@ const Footer = (props) => {
     count: PropTypes.number,
     filterTasks: PropTypes.func,
     clearCompleted: PropTypes.func,
-    filterOption: 'all',
+    filterOption: PropTypes.string,
   };
 
   const { count, clearCompleted, filterTasks, filterOption } = props;

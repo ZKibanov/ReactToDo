@@ -20,7 +20,9 @@ export default class NewTaskForm extends Component {
     const { onItemAdded } = this.props;
     const { label } = this.state;
     ev.preventDefault();
-    onItemAdded(label);
+    if (label[0] !== ' ') {
+      onItemAdded(label);
+    }
     this.setState(() => ({ label: '' }));
   };
 

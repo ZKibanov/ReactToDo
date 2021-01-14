@@ -9,12 +9,16 @@ export default class Task extends Component {
     description: 'this task is missing',
     completed: false,
     onRename: () => {
+      /* eslint no-console: [0, { allow: ["warn", "error"] }] */
+      // custom console
       console.log('We have lost function onRename somewhere in import');
     },
     onDeleted: () => {
+      // custom console
       console.log('We have lost function onDeleted somewhere in import');
     },
     onDone: () => {
+      // custom console
       console.log('We have lost function onDone somewhere in import');
     },
   };
@@ -23,7 +27,7 @@ export default class Task extends Component {
     description: PropTypes.string,
     completed: PropTypes.bool,
     status: PropTypes.string,
-    created: PropTypes.instanceOf(Date),
+    created: PropTypes.number,
     onRename: PropTypes.func,
     onDeleted: PropTypes.func,
     onDone: PropTypes.func,
@@ -64,7 +68,7 @@ export default class Task extends Component {
     return (
       <li className={status}>
         <div className="view">
-          <input className="toggle" type="checkbox" checked={completed} onClick={onDone} />
+          <input className="toggle" type="checkbox" checked={completed} onChange={onDone} />
           <label>
             <span className="description">{description}</span>
             <span className="created">{formatDistanceToNow(created, { includeSeconds: true })}</span>
@@ -73,7 +77,7 @@ export default class Task extends Component {
           <button aria-label="delete" type="button" className="icon icon-destroy" onClick={onDeleted} />
         </div>
         <form onSubmit={this.onSubmit}>
-          <input type="text" className="edit" />
+          <input type="text" defaultValue={description} className="edit" />
         </form>
       </li>
     );
