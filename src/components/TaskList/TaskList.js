@@ -19,15 +19,9 @@ const TaskList = ({ tasks, onDeleted, onDone, onRename }) => {
 };
 
 TaskList.defaultProps = {
-  onDeleted: () => {
-    console.log('We have lost function onDeleted somewhere in import');
-  },
-  onDone: () => {
-    console.log('We have lost function onDone somewhere in import');
-  },
-  onRename: () => {
-    console.log('We have lost function onRename somewhere in import');
-  },
+  onDeleted: () => {},
+  onDone: () => {},
+  onRename: () => {},
   tasks: [
     {
       description: "Program didn't recieved data - that's why you see this message",

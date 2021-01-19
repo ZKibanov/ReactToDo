@@ -8,19 +8,9 @@ export default class Task extends Component {
     created: Date.now(),
     description: 'this task is missing',
     completed: false,
-    onRename: () => {
-      /* eslint no-console: [0, { allow: ["warn", "error"] }] */
-      // custom console
-      console.log('We have lost function onRename somewhere in import');
-    },
-    onDeleted: () => {
-      // custom console
-      console.log('We have lost function onDeleted somewhere in import');
-    },
-    onDone: () => {
-      // custom console
-      console.log('We have lost function onDone somewhere in import');
-    },
+    onRename: () => {},
+    onDeleted: () => {},
+    onDone: () => {},
   };
 
   static propTypes = {

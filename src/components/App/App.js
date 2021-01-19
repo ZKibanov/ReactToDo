@@ -75,7 +75,7 @@ export default class App extends Component {
     this.setState(({ tasks }) => {
       const newItemId = elId + 1;
       elId += 1;
-      const newItem = this.generateTaskObject(text, false, Date.now(), newItemId);
+      const newItem = this.generateTaskObject(text.trim(), false, Date.now(), newItemId);
       const tasksArray = [...tasks, newItem];
       localStorage.setItem('tasks', JSON.stringify(tasksArray));
       return { tasks: tasksArray };
@@ -83,12 +83,12 @@ export default class App extends Component {
   };
 
   renameItem = (text, id) => {
-    if (!text || text[0] === ' ') return;
+    if (!text) return;
     this.setState(({ tasks }) => {
       const idx = this.findId(tasks, id);
       const before = tasks.slice(0, idx);
       const after = tasks.slice(idx + 1);
-      const newItem = this.generateTaskObject(text, false, Date.now(), id);
+      const newItem = this.generateTaskObject(text.trim(), false, Date.now(), id);
       const tasksArray = [...before, newItem, ...after];
       localStorage.setItem('tasks', JSON.stringify(tasksArray));
       return { tasks: tasksArray };

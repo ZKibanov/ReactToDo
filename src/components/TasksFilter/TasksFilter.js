@@ -5,9 +5,7 @@ const TasksFilter = (props) => {
   const { filterTasks, filterOption } = props;
 
   TasksFilter.defaultProps = {
-    filterTasks: () => {
-      console.log('We have lost function filterTasks somewhere in import');
-    },
+    filterTasks: () => {},
     filterOption: 'all',
   };
 

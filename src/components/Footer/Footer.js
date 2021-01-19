@@ -5,12 +5,8 @@ import TasksFilter from '../TasksFilter';
 const Footer = (props) => {
   Footer.defaultProps = {
     count: 0,
-    filterTasks: () => {
-      console.log('We have lost function filterTasks somewhere in import');
-    },
-    clearCompleted: () => {
-      console.log('We have lost function clearCompleted somewhere in import');
-    },
+    filterTasks: () => {},
+    clearCompleted: () => {},
     filterOption: 'all',
   };
 

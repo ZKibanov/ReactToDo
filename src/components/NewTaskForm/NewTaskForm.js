@@ -7,9 +7,7 @@ export default class NewTaskForm extends Component {
   };
 
   static defaultProps = {
-    onItemAdded: () => {
-      console.log('We have lost function onItemAdded somewhere in import');
-    },
+    onItemAdded: () => {},
   };
 
   static propTypes = {
@@ -20,9 +18,7 @@ export default class NewTaskForm extends Component {
     const { onItemAdded } = this.props;
     const { label } = this.state;
     ev.preventDefault();
-    if (label[0] !== ' ') {
-      onItemAdded(label);
-    }
+    onItemAdded(label);
     this.setState(() => ({ label: '' }));
   };
 
