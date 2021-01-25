@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class NewTaskForm extends Component {
   state = {
-    label: '',
+    todoLabel: '',
   };
 
   static defaultProps = {
@@ -14,32 +14,60 @@ export default class NewTaskForm extends Component {
     onItemAdded: PropTypes.func,
   };
 
-  onSubmit = (ev) => {
+  onFormSubmit = (ev) => {
     const { onItemAdded } = this.props;
-    const { label } = this.state;
+    const { todoLabel, todoTimerMinuts, todoTimerSeconds } = this.state;
     ev.preventDefault();
-    onItemAdded(label);
-    this.setState(() => ({ label: '' }));
+    onItemAdded(todoLabel, todoTimerMinuts, todoTimerSeconds);
+    this.setState(() => ({
+      todoLabel: '',
+      todoTimerMinuts: '',
+      todoTimerSeconds: '',
+    }));
   };
 
   onLabelChange = (ev) => {
-    this.setState(() => ({ label: ev.target.value }));
+    const { target } = ev;
+    const { value, name } = target;
+    this.setState({
+      [name]: value,
+    });
   };
 
   render() {
-    const searchText = 'What needs to be done?';
-    const { label } = this.state;
+    const searchText = 'Task';
+    const { todoLabel, todoTimerMinuts, todoTimerSeconds } = this.state;
     return (
       <header className="header">
         <h1>todos</h1>
-        <form onSubmit={this.onSubmit}>
+        <form action="" onSubmit={this.onFormSubmit} className="new-todo-form">
           <input
+            name="todoLabel"
             type="text"
             className="new-todo"
             placeholder={searchText}
             onChange={this.onLabelChange}
-            value={label}
+            value={todoLabel}
           />
+          <input
+            name="todoTimerMinuts"
+            type="number"
+            className="new-todo-form__timer"
+            max="60"
+            placeholder="Min"
+            onChange={this.onLabelChange}
+            value={todoTimerMinuts}
+          />
+          <input
+            name="todoTimerSeconds"
+            type="number"
+            className="new-todo-form__timer"
+            max="60"
+            placeholder="Sec"
+            onChange={this.onLabelChange}
+            value={todoTimerSeconds}
+          />
+          <input className="form-submit-button" type="submit" value="💾" />
         </form>
       </header>
     );

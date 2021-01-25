@@ -27,6 +27,7 @@ export default class App extends Component {
           description: 'Active task',
           completed: false,
           created: 1577836800000,
+          timeLeft: 743000,
           id: 3,
         },
       ];
@@ -40,11 +41,20 @@ export default class App extends Component {
     };
   }
 
+  componentDidMount() {
+    this.interval = setInterval(this.updateTimers, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   findId = (arr, id) => arr.findIndex((el) => el.id === id);
 
-  generateTaskObject = (descriptionText, completedStatus = false, createdDate, idNum) => ({
+  generateTaskObject = (descriptionText, completedStatus = false, timer, createdDate, idNum) => ({
     description: descriptionText,
     completed: completedStatus,
+    timeLeft: timer,
     created: createdDate,
     id: idNum,
   });
@@ -70,12 +80,13 @@ export default class App extends Component {
     });
   };
 
-  addItem = (text) => {
+  addItem = (text, minuts = 0, seconds = 0) => {
     if (!text) return;
+    const timeLeft = (minuts * 60 + Number(seconds)) * 1000;
+    const newItemId = elId + 1;
+    elId += 1;
     this.setState(({ tasks }) => {
-      const newItemId = elId + 1;
-      elId += 1;
-      const newItem = this.generateTaskObject(text.trim(), false, Date.now(), newItemId);
+      const newItem = this.generateTaskObject(text.trim(), false, timeLeft, Date.now(), newItemId);
       const tasksArray = [...tasks, newItem];
       localStorage.setItem('tasks', JSON.stringify(tasksArray));
       return { tasks: tasksArray };
@@ -88,7 +99,7 @@ export default class App extends Component {
       const idx = this.findId(tasks, id);
       const before = tasks.slice(0, idx);
       const after = tasks.slice(idx + 1);
-      const newItem = this.generateTaskObject(text.trim(), false, Date.now(), id);
+      const newItem = this.generateTaskObject(text.trim(), false, tasks[idx].timeLeft, Date.now(), id);
       const tasksArray = [...before, newItem, ...after];
       localStorage.setItem('tasks', JSON.stringify(tasksArray));
       return { tasks: tasksArray };
@@ -124,18 +135,54 @@ export default class App extends Component {
     }
   };
 
+  turnOnCountdown = (id) => {
+    this.setState(({ tasks }) => {
+      const idx = this.findId(tasks, id);
+      const tasksArray = [...tasks];
+      tasksArray[idx].countdown = true;
+      localStorage.setItem('tasks', JSON.stringify(tasksArray));
+      return tasksArray;
+    });
+  };
+
+  turnOffCountdown = (id, date) => {
+    this.setState(({ tasks }) => {
+      const idx = this.findId(tasks, id);
+      const tasksArray = [...tasks];
+      tasksArray[idx].countdown = false;
+      tasksArray[idx].timeLeft = date;
+      localStorage.setItem('tasks', JSON.stringify(tasksArray));
+      return tasksArray;
+    });
+  };
+
+  updateTimers = () => {
+    const { tasks } = this.state;
+    const tasksArray = [...tasks];
+    for (let i = 0; i < tasksArray.length; i++) {
+      if (tasksArray[i].timeLeft > 0 && tasksArray[i].countdown) {
+        tasksArray[i].timeLeft -= 1;
+      }
+    }
+    this.setState({
+      tasks: tasksArray,
+    });
+  };
+
   render() {
     const { tasks, filterOption } = this.state;
     const count = tasks.filter((el) => !el.completed).length;
     return (
       <section className="todoapp">
-        <NewTaskForm onItemAdded={(text) => this.addItem(text)} />
+        <NewTaskForm onItemAdded={(text, minuts, seconds) => this.addItem(text, minuts, seconds)} />
         <section className="main">
           <TaskList
             tasks={this.applyFilter()}
             onDeleted={this.deleteItem}
             onDone={this.markAsDone}
             onRename={this.renameItem}
+            turnOffCountdown={this.turnOffCountdown}
+            turnOnCountdown={this.turnOnCountdown}
           />
           <Footer
             filterTasks={this.filterTasks}

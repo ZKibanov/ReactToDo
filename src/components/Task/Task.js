@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropTypes from 'prop-types';
+import Timer from '../Timer';
 
 export default class Task extends Component {
   static defaultProps = {
@@ -8,9 +9,13 @@ export default class Task extends Component {
     created: Date.now(),
     description: 'this task is missing',
     completed: false,
+    timeLeft: 0,
+    countdown: false,
     onRename: () => {},
     onDeleted: () => {},
     onDone: () => {},
+    onTimer: () => {},
+    offTimer: () => {},
   };
 
   static propTypes = {
@@ -21,6 +26,10 @@ export default class Task extends Component {
     onRename: PropTypes.func,
     onDeleted: PropTypes.func,
     onDone: PropTypes.func,
+    timeLeft: PropTypes.number,
+    countdown: PropTypes.bool,
+    onTimer: PropTypes.func,
+    offTimer: PropTypes.func,
   };
 
   constructor() {
@@ -44,8 +53,14 @@ export default class Task extends Component {
 
   render() {
     let { status } = this.props;
-    const { description, created, onDeleted, onDone, completed } = this.props;
+    const { description, created, timeLeft, onDeleted, onTimer, offTimer, onDone, countdown, completed } = this.props;
     const { editing } = this.state;
+    let timer;
+    if (timeLeft) {
+      timer = <Timer timeLeft={timeLeft} countdown={countdown} onTimer={onTimer} offTimer={(date) => offTimer(date)} />;
+    } else {
+      timer = null;
+    }
 
     if (completed) {
       status = 'completed';
@@ -60,7 +75,8 @@ export default class Task extends Component {
         <div className="view">
           <input className="toggle" type="checkbox" checked={completed} onChange={onDone} />
           <label>
-            <span className="description">{description}</span>
+            <span className="title">{description}</span>
+            {timer}
             <span className="created">{formatDistanceToNow(created, { includeSeconds: true })}</span>
           </label>
           <button aria-label="edit" type="button" className="icon icon-edit" onClick={this.turnToEdit} />
