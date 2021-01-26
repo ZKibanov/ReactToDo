@@ -26,7 +26,7 @@ export default class Task extends Component {
     onRename: PropTypes.func,
     onDeleted: PropTypes.func,
     onDone: PropTypes.func,
-    timeLeft: PropTypes.number,
+    timeLeft: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     countdown: PropTypes.bool,
     onTimer: PropTypes.func,
     offTimer: PropTypes.func,
@@ -53,10 +53,12 @@ export default class Task extends Component {
 
   render() {
     let { status } = this.props;
-    const { description, created, timeLeft, onDeleted, onTimer, offTimer, onDone, countdown, completed } = this.props;
+    const { description, created, onDeleted, onTimer, offTimer, timeLeft, onDone, countdown, completed } = this.props;
     const { editing } = this.state;
     let timer;
-    if (timeLeft) {
+    if (timeLeft === 'x') {
+      timer = <Timer timeLeft={1} countdown={false} />;
+    } else if (timeLeft) {
       timer = <Timer timeLeft={timeLeft} countdown={countdown} onTimer={onTimer} offTimer={(date) => offTimer(date)} />;
     } else {
       timer = null;

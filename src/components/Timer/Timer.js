@@ -13,7 +13,7 @@ export default class Timer extends Component {
   static propTypes = {
     onTimer: PropTypes.func,
     offTimer: PropTypes.func,
-    timeLeft: PropTypes.number,
+    timeLeft: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     countdown: PropTypes.bool,
   };
 
@@ -41,7 +41,8 @@ export default class Timer extends Component {
   };
 
   timerOn = () => {
-    const { onTimer, timeLeft } = this.props;
+    const { onTimer, timeLeft, countdown } = this.props;
+    if (countdown) return;
     this.setState({
       endOfTimerDate: Date.now() + timeLeft,
     });
@@ -53,8 +54,8 @@ export default class Timer extends Component {
     if (!countdown) return;
     const { endOfTimerDate } = this.state;
     const timeLeft = endOfTimerDate - Date.now();
-    if (timeLeft < 0) {
-      offTimer(0);
+    if (timeLeft <= 1000) {
+      offTimer('x');
     }
     this.setState({
       date: timeLeft,

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 export default class NewTaskForm extends Component {
   state = {
     todoLabel: '',
+    todoTimerMinuts: '',
+    todoTimerSeconds: '',
   };
 
   static defaultProps = {
@@ -44,6 +46,7 @@ export default class NewTaskForm extends Component {
           <input
             name="todoLabel"
             type="text"
+            required
             className="new-todo"
             placeholder={searchText}
             onChange={this.onLabelChange}
